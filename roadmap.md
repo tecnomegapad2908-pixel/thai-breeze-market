@@ -1,0 +1,1 @@
+- [ ] ใส่ลิงก์จริง TikTok Shop / Shopee / LINE ID (รอผู้ใช้ส่งมา)
