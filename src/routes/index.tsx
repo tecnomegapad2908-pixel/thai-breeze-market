@@ -6,6 +6,7 @@ import crackling from "@/assets/crackling.jpg.asset.json";
 import ingredients from "@/assets/ingredients.jpg.asset.json";
 import jar from "@/assets/jar.jpg.asset.json";
 import { FLAVORS, SIZES, SHOP_LINKS, orderTotal } from "@/lib/shop";
+import { FlavorQuiz } from "@/components/FlavorQuiz";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,6 +63,7 @@ function Index() {
           </h1>
           <p className="mt-5 max-w-md text-lg text-muted-foreground">เครื่องแน่น กรอบสนั่น น้ำมันใหม่ทุกกระทะ — กินกับข้าว ไข่เจียว มาม่า ก็ฟิน</p>
           <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#quiz" className="pop pop-hover rounded-full bg-secondary px-6 py-3 font-display text-lg font-semibold">ให้ AI ช่วยเลือกรส ✨</a>
             <ShopButtons />
           </div>
         </div>
@@ -104,6 +106,14 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <FlavorQuiz
+        onPick={(fid, sid) => {
+          setFlavor(fid);
+          setSize(sid);
+          document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
 
       <section id="order" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
         <h2 className="text-4xl font-black md:text-5xl">เลือกความแซ่บของคุณ</h2>

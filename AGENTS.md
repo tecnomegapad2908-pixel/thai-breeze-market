@@ -28,3 +28,4 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+- AI features: server function in `src/lib/*.functions.ts` calls helpers in `src/lib/*.server.ts` that stream Lovable AI Gateway Responses with a strict zod `Output.object` schema shared from a client-safe `src/lib/*.ts`; keeps the key server-side and the answer shape guaranteed.
