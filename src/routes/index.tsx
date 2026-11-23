@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import hero from "@/assets/hero.jpg";
+import chili from "@/assets/chili.jpg.asset.json";
+import crackling from "@/assets/crackling.jpg.asset.json";
+import ingredients from "@/assets/ingredients.jpg.asset.json";
+import jar from "@/assets/jar.jpg.asset.json";
 import { FLAVORS, SIZES, SHOP_LINKS, orderTotal } from "@/lib/shop";
 
 export const Route = createFileRoute("/")({
@@ -17,9 +21,16 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const POINTS = [
+const GALLERY = [
+  { src: chili.url, alt: "พริกแห้งและพริกสด", title: "พริกไทยไทย", text: "เผ็ดหอมจากพริกสดใหม่ คัดเมล็ดทุกครัง" },
+  { src: crackling.url, alt: "กากหมูทอดกรอบ", title: "กากหมูกรอบสนั่น", text: "ทอดน้ำมันใหม่ทุกกระทะ กรอบเบาไม่อมนมัน" },
+  { src: ingredients.url, alt: "หอมแดง กระเทียม พริกคั่ว", title: "หอม กระเทียม พริกคั่ว", text: "วัตถุดิบท้องถิ่น คัดมาแตละชุดผลิต" },
+  { src: jar.url, alt: "กระปุกน้ำพริกกากหมูซึีลฝา", title: "ซึีลกลิ่นหอมสนิด", text: "ปืดแล้วกรอบนาน ไล่น้ำมันอิกครังกอนใส่กระปุก" },
+];
+
+const POINTS: { icon: string; img?: string; title: string; text: string }[] = [
   { icon: "🔥", title: "น้ำมันใหม่ทุกกระทะ", text: "ไม่ใช้น้ำมันซ้ำ ไร้กลิ่นหืน กรอบเบาไม่อมน้ำมัน" },
-  { icon: "🧄", title: "เครื่องแน่นจุกๆ", text: "หอมแดง กระเทียมไทย พริกคั่ว จากวัตถุดิบท้องถิ่น" },
+  { icon: "🧄", img: ingredients.url, title: "เครื่องแน่นจุกๆ", text: "หอมแดง กระเทียมไทย พริกคั่ว จากวัตถุดิบท้องถิ่น" },
   { icon: "✅", title: "สะอาด ปลอดภัย", text: "คุมความสะอาดทุกขั้นตอน ซีลกระปุกล็อคความกรอบ" },
 ];
 
@@ -64,11 +75,33 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-5 px-4 md:grid-cols-3">
           {POINTS.map((p) => (
             <div key={p.title} className="pop rounded-2xl bg-card p-6 text-card-foreground">
-              <div className="text-4xl">{p.icon}</div>
+              {p.img ? (
+                <img src={p.img} alt={p.title} width={1254} height={1254} className="size-16 rounded-xl border-[3px] border-foreground object-cover" />
+              ) : (
+                <div className="text-4xl">{p.icon}</div>
+              )}
               <h3 className="mt-3 text-2xl font-extrabold">{p.title}</h3>
               <p className="mt-1 text-muted-foreground">{p.text}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="border-b-[3px] border-foreground bg-background py-14">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="text-4xl font-black md:text-5xl">ข้างกระปุกมีอะไร?</h2>
+          <p className="mt-2 text-muted-foreground">เห็นคึอได้กิน — ไม่มีส่วนผสมลึกลับ</p>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {GALLERY.map((g, i) => (
+              <figure key={g.title} className={`pop overflow-hidden rounded-2xl bg-card ${i % 2 ? "rotate-1" : "-rotate-1"}`}>
+                <img src={g.src} alt={g.alt} width={1254} height={1254} loading="lazy" className="aspect-square w-full object-cover" />
+                <figcaption className="p-4">
+                  <h3 className="font-display text-xl font-extrabold">{g.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{g.text}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
