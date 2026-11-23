@@ -7,6 +7,8 @@ import ingredients from "@/assets/ingredients.jpg.asset.json";
 import jar from "@/assets/jar.jpg.asset.json";
 import { FLAVORS, SIZES, SHOP_LINKS, orderTotal } from "@/lib/shop";
 import { FlavorQuiz } from "@/components/FlavorQuiz";
+import { Checkout } from "@/components/Checkout";
+import type { CartLine } from "@/lib/orders";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,6 +41,12 @@ function Index() {
   const [flavor, setFlavor] = useState<string>(FLAVORS[0].id);
   const [size, setSize] = useState<string>(SIZES[1].id);
   const [qty, setQty] = useState(1);
+  const [cart, setCart] = useState<CartLine[]>([]);
+  const addToCart = () => {
+    setCart((c) => [...c, { flavorId: flavor, sizeId: size, qty }]);
+    setQty(1);
+    document.getElementById("checkout")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   const f = FLAVORS.find((x) => x.id === flavor)!;
   const s = SIZES.find((x) => x.id === size)!;
   const total = orderTotal(s.price, qty);
@@ -147,9 +155,14 @@ function Index() {
               <p className="font-display text-3xl font-black text-primary">฿{total}</p>
             </div>
           </div>
-          <a href={lineUrl} target="_blank" rel="noreferrer" className="pop pop-hover rounded-full bg-line px-6 py-3 text-center font-display text-lg font-semibold text-primary-foreground">สั่งผ่าน LINE</a>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <button type="button" onClick={addToCart} className="pop pop-hover rounded-full bg-primary px-6 py-3 text-center font-display text-lg font-semibold text-primary-foreground">ใส่ตะกร้า 🛒</button>
+            <a href={lineUrl} target="_blank" rel="noreferrer" className="pop pop-hover rounded-full bg-line px-6 py-3 text-center font-display text-lg font-semibold text-primary-foreground">สั่งผ่าน LINE</a>
+          </div>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">ซื้อครบ 5 กระปุก ส่งฟรี! 🛵</p>
+
+        <Checkout lines={cart} onRemove={(i) => setCart((c) => c.filter((_, j) => j !== i))} onPlaced={() => setCart([])} />
       </section>
 
       <section className="border-t-[3px] border-foreground bg-secondary py-14">
